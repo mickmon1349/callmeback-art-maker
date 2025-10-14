@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 export default defineConfig({
   // 確保 base 屬性正確，且在 defineConfig 的頂層。
-  base: "./",
+  base: "/callmeback-art-maker/",
   build: {
     outDir: 'dist',  // 輸出目錄
     assetsDir: 'assets',
