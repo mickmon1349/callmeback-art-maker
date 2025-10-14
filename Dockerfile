@@ -1,15 +1,12 @@
-FROM node:20-alpine AS build-stage
-
-# 設定工作目錄
+# 使用 node 官方映像檔建立前端靜態檔案
+FROM node:20-alpine AS build
 WORKDIR /app
-
-# 複製 package.json 和 package-lock.json，並安裝依賴套件
-COPY package*.json ./
-RUN npm install
-
-# 複製所有專案檔案
 COPY . .
+RUN npm install && npm run build
 
-# 執行 React 應用程式的建置
-# 這會將靜態檔案輸出到 build/ 目錄
-RUN npm run build
+# 使用輕量 nginx 供靜態檔案服務
+FROM nginx:alpine
+WORKDIR /usr/share/nginx/html
+COPY --from=build /app/dist .
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
