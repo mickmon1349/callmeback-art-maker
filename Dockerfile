@@ -6,7 +6,6 @@ RUN npm install && npm run build
 
 # 使用輕量 nginx 供靜態檔案服務
 FROM nginx:alpine
-WORKDIR /usr/share/nginx/html
-COPY --from=build /app/dist .
+COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
